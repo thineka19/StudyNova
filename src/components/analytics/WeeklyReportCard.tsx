@@ -1,3 +1,4 @@
+import { Lightbulb, ScrollText } from 'lucide-react';
 import Card from '../common/Card';
 import { useApp } from '../../context/AppContext';
 import { generateWeeklyReport } from '../../lib/weeklyReport';
@@ -8,30 +9,35 @@ export default function WeeklyReportCard() {
   const report = generateWeeklyReport(data);
 
   return (
-    <Card>
-      <h3 className="mb-3 font-semibold">Weekly Study Report</h3>
+    <Card className="animate-fade-in">
+      <h3 className="mb-3 flex items-center gap-2 font-semibold text-text-primary">
+        <ScrollText className="size-4 text-accent" /> Weekly Study Report
+      </h3>
       <div className="mb-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
         <div>
-          <p className="text-xl font-bold text-indigo-600 dark:text-indigo-400">{report.hoursStudied}h</p>
-          <p className="text-xs text-slate-500">Hours Studied</p>
+          <p className="text-xl font-bold text-accent">{report.hoursStudied}h</p>
+          <p className="text-xs text-text-secondary">Hours Studied</p>
         </div>
         <div>
-          <p className="text-xl font-bold text-indigo-600 dark:text-indigo-400">{report.tasksCompleted}</p>
-          <p className="text-xs text-slate-500">Tasks Completed</p>
+          <p className="text-xl font-bold text-accent">{report.tasksCompleted}</p>
+          <p className="text-xs text-text-secondary">Tasks Completed</p>
         </div>
         <div>
-          <p className="truncate text-xl font-bold text-emerald-600 dark:text-emerald-400">{report.strongestSubject ?? '—'}</p>
-          <p className="text-xs text-slate-500">Strongest Subject</p>
+          <p className="truncate text-xl font-bold text-success">{report.strongestSubject ?? '—'}</p>
+          <p className="text-xs text-text-secondary">Strongest Subject</p>
         </div>
         <div>
-          <p className="truncate text-xl font-bold text-rose-600 dark:text-rose-400">{report.weakestSubject ?? '—'}</p>
-          <p className="text-xs text-slate-500">Weakest Subject</p>
+          <p className="truncate text-xl font-bold text-danger">{report.weakestSubject ?? '—'}</p>
+          <p className="text-xs text-text-secondary">Weakest Subject</p>
         </div>
       </div>
       <div className="space-y-1.5">
         {report.tips.map((tip, i) => (
-          <p key={i} className="rounded-lg bg-slate-50 px-3 py-2 text-sm text-slate-600 dark:bg-slate-800 dark:text-slate-300">
-            💡 {tip}
+          <p
+            key={i}
+            className="flex items-start gap-2 rounded-lg bg-surface px-3 py-2 text-sm text-text-secondary transition-colors duration-200 hover:bg-surface/70"
+          >
+            <Lightbulb className="mt-0.5 size-4 shrink-0 text-warning" /> {tip}
           </p>
         ))}
       </div>

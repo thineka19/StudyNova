@@ -1,11 +1,14 @@
+import { ListChecks } from 'lucide-react';
 import Card from '../common/Card';
+import EmptyState from '../common/EmptyState';
+import Badge from '../common/Badge';
 import { useApp } from '../../context/AppContext';
 import { formatShortDate } from '../../lib/dateUtils';
 
-function scoreColor(score: number): string {
-  if (score >= 75) return 'bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300';
-  if (score >= 45) return 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300';
-  return 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300';
+function scoreTone(score: number): 'danger' | 'warning' | 'success' {
+  if (score >= 75) return 'danger';
+  if (score >= 45) return 'warning';
+  return 'success';
 }
 
 export default function PriorityList() {
@@ -14,20 +17,23 @@ export default function PriorityList() {
 
   return (
     <Card>
-      <h3 className="mb-3 font-semibold">Smart Priority List</h3>
-      {items.length === 0 && <p className="text-sm text-slate-400">No active assignments or exams.</p>}
+      <h3 className="mb-3 font-semibold text-text-primary">Smart Priority List</h3>
+      {items.length === 0 && (
+        <EmptyState icon={<ListChecks className="size-5" />} title="No active assignments or exams" />
+      )}
       <div className="space-y-2">
         {items.map((item) => (
-          <div key={item.id} className="flex items-center justify-between gap-3 rounded-lg border border-slate-100 p-2.5 text-sm dark:border-slate-800">
+          <div
+            key={item.id}
+            className="flex items-center justify-between gap-3 rounded-lg border border-border p-2.5 text-sm transition-colors duration-200 hover:bg-surface"
+          >
             <div className="min-w-0">
-              <p className="truncate font-medium">{item.title}</p>
-              <p className="text-xs text-slate-400">
+              <p className="truncate font-medium text-text-primary">{item.title}</p>
+              <p className="text-xs text-text-secondary">
                 {item.subjectName} · Due {formatShortDate(item.dueDate)} ({item.daysLeft >= 0 ? `${item.daysLeft}d` : 'overdue'})
               </p>
             </div>
-            <span className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-bold ${scoreColor(item.priorityScore)}`}>
-              {item.priorityScore}
-            </span>
+            <Badge tone={scoreTone(item.priorityScore)}>{item.priorityScore}</Badge>
           </div>
         ))}
       </div>

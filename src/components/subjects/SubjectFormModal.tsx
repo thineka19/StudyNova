@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
+import { Trash2 } from 'lucide-react';
 import Modal from '../common/Modal';
-import { inputClass, labelClass, primaryButtonClass, secondaryButtonClass } from '../common/formStyles';
+import Input, { Label, Select } from '../common/Input';
+import Button from '../common/Button';
 import type { Difficulty, Subject, Topic } from '../../types';
 import { useApp } from '../../context/AppContext';
 
@@ -63,62 +65,72 @@ export default function SubjectFormModal({
     <Modal open={open} onClose={onClose} title={subject ? 'Edit Subject' : 'Add Subject'}>
       <div className="space-y-4">
         <div>
-          <label className={labelClass} htmlFor="subject-name">Subject name</label>
-          <input
+          <Label htmlFor="subject-name">Subject name</Label>
+          <Input
             id="subject-name"
-            className={inputClass}
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="e.g. Database Systems"
           />
         </div>
         <div>
-          <label className={labelClass} htmlFor="subject-difficulty">Difficulty</label>
-          <select
+          <Label htmlFor="subject-difficulty">Difficulty</Label>
+          <Select
             id="subject-difficulty"
-            className={inputClass}
             value={difficulty}
             onChange={(e) => setDifficulty(e.target.value as Difficulty)}
           >
             <option value="low">Low</option>
             <option value="med">Medium</option>
             <option value="high">High</option>
-          </select>
+          </Select>
         </div>
         <div>
-          <label className={labelClass}>Topics ({progress}% covered)</label>
-          <div className="max-h-40 space-y-1 overflow-y-auto rounded-lg border border-slate-200 p-2 dark:border-slate-700">
-            {topics.length === 0 && <p className="px-1 text-xs text-slate-400">No topics yet</p>}
+          <Label>Topics ({progress}% covered)</Label>
+          <div className="max-h-40 space-y-1 overflow-y-auto rounded-lg border border-border p-2">
+            {topics.length === 0 && <p className="px-1 text-xs text-text-secondary">No topics yet</p>}
             {topics.map((topic, idx) => (
-              <div key={idx} className="flex items-center gap-2 rounded-md px-1 py-1 text-sm hover:bg-slate-50 dark:hover:bg-slate-800">
-                <input type="checkbox" checked={topic.covered} onChange={() => toggleTopic(idx)} />
-                <span className={`flex-1 ${topic.covered ? 'text-slate-400 line-through' : ''}`}>{topic.name}</span>
-                <button type="button" onClick={() => removeTopic(idx)} className="text-xs text-rose-500 hover:underline">
-                  remove
+              <div
+                key={idx}
+                className="flex items-center gap-2 rounded-md px-1 py-1 text-sm transition-colors duration-200 hover:bg-surface"
+              >
+                <input
+                  type="checkbox"
+                  checked={topic.covered}
+                  onChange={() => toggleTopic(idx)}
+                  className="size-4 accent-primary"
+                />
+                <span className={`flex-1 text-text-primary ${topic.covered ? 'text-text-secondary line-through' : ''}`}>
+                  {topic.name}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => removeTopic(idx)}
+                  aria-label="Remove topic"
+                  className="rounded-md p-1 text-text-secondary transition-colors duration-200 hover:bg-danger/10 hover:text-danger"
+                >
+                  <Trash2 className="size-3.5" />
                 </button>
               </div>
             ))}
           </div>
           <div className="mt-2 flex gap-2">
-            <input
-              className={inputClass}
+            <Input
               value={newTopic}
               onChange={(e) => setNewTopic(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addTopic())}
               placeholder="Add a topic and press Enter"
             />
-            <button type="button" onClick={addTopic} className={secondaryButtonClass}>
+            <Button variant="secondary" onClick={addTopic}>
               Add
-            </button>
+            </Button>
           </div>
         </div>
         <div className="flex justify-end gap-2 pt-2">
-          <button type="button" onClick={onClose} className={secondaryButtonClass}>
+          <Button variant="secondary" onClick={onClose}>
             Cancel
-          </button>
-          <button type="button" onClick={handleSubmit} className={primaryButtonClass}>
-            {subject ? 'Save Changes' : 'Add Subject'}
-          </button>
+          </Button>
+          <Button onClick={handleSubmit}>{subject ? 'Save Changes' : 'Add Subject'}</Button>
         </div>
       </div>
     </Modal>

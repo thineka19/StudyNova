@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Card from '../common/Card';
-import { secondaryButtonClass } from '../common/formStyles';
+import Button from '../common/Button';
 import { useApp } from '../../context/AppContext';
 import { todayISO } from '../../lib/dateUtils';
 
@@ -10,9 +11,9 @@ interface DayEvent {
 }
 
 const KIND_STYLE: Record<DayEvent['kind'], string> = {
-  exam: 'bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300',
-  deadline: 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300',
-  session: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300',
+  exam: 'bg-danger/15 text-danger',
+  deadline: 'bg-warning/15 text-warning',
+  session: 'bg-primary/15 text-accent',
 };
 
 function toISO(y: number, m: number, d: number): string {
@@ -60,18 +61,18 @@ export default function MonthCalendar() {
   };
 
   return (
-    <Card>
+    <Card variant="glass">
       <div className="mb-4 flex items-center justify-between">
-        <button type="button" onClick={goPrev} className={secondaryButtonClass}>
-          ← Prev
-        </button>
-        <h3 className="font-semibold">{monthLabel}</h3>
-        <button type="button" onClick={goNext} className={secondaryButtonClass}>
-          Next →
-        </button>
+        <Button variant="secondary" size="sm" onClick={goPrev} icon={<ChevronLeft className="size-4" />}>
+          Prev
+        </Button>
+        <h3 className="font-semibold text-text-primary">{monthLabel}</h3>
+        <Button variant="secondary" size="sm" onClick={goNext} icon={<ChevronRight className="size-4" />}>
+          Next
+        </Button>
       </div>
 
-      <div className="mb-1 grid grid-cols-7 gap-1 text-center text-xs font-medium text-slate-400">
+      <div className="mb-1 grid grid-cols-7 gap-1 text-center text-xs font-medium text-text-secondary">
         {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((d) => (
           <div key={d}>{d}</div>
         ))}
@@ -85,11 +86,11 @@ export default function MonthCalendar() {
           return (
             <div
               key={idx}
-              className={`min-h-20 rounded-md border p-1 text-left align-top ${
-                isToday ? 'border-indigo-400 bg-indigo-50 dark:bg-indigo-950/30' : 'border-slate-100 dark:border-slate-800'
+              className={`min-h-20 rounded-[var(--radius-sm)] border p-1 text-left align-top transition-colors duration-200 ${
+                isToday ? 'border-primary/40 bg-primary/5' : 'border-border hover:bg-surface'
               }`}
             >
-              <p className={`mb-0.5 text-xs ${isToday ? 'font-bold text-indigo-600 dark:text-indigo-400' : 'text-slate-500'}`}>
+              <p className={`mb-0.5 text-xs ${isToday ? 'font-bold text-accent' : 'text-text-secondary'}`}>
                 {day}
               </p>
               <div className="space-y-0.5">
@@ -98,7 +99,7 @@ export default function MonthCalendar() {
                     {ev.label}
                   </p>
                 ))}
-                {events.length > 3 && <p className="text-[10px] text-slate-400">+{events.length - 3} more</p>}
+                {events.length > 3 && <p className="text-[10px] text-text-secondary">+{events.length - 3} more</p>}
               </div>
             </div>
           );

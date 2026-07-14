@@ -1,12 +1,20 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Pause, Play, RotateCcw } from 'lucide-react';
 import Card from '../common/Card';
-import { primaryButtonClass, secondaryButtonClass } from '../common/formStyles';
+import Button from '../common/Button';
 import { useApp } from '../../context/AppContext';
 import type { FocusSessionType } from '../../types';
 
 const MODES: { type: FocusSessionType; label: string; workMins: number; breakMins: number }[] = [
   { type: '25', label: '25 min Focus', workMins: 25, breakMins: 5 },
   { type: '50', label: '50 min Deep Focus', workMins: 50, breakMins: 10 },
+];
+
+const MOTIVATION = [
+  'Small consistent sessions beat marathon cramming.',
+  'One focused block at a time — that\'s the whole plan.',
+  'Deep work compounds. Stay with it.',
+  'Your future self is thanking you already.',
 ];
 
 function formatTime(totalSeconds: number): string {
@@ -20,8 +28,10 @@ function formatTime(totalSeconds: number): string {
 }
 
 export default function FocusTimer() {
-  const { addFocusSession } = useApp();
+  const { addFocusSession, derived } = useApp();
   const [modeIdx, setModeIdx] = useState(0);
+  const currentSubject = derived.priorities[0]?.subjectName;
+  const motivation = useMemo(() => MOTIVATION[Math.floor(Math.random() * MOTIVATION.length)], []);
   const mode = MODES[modeIdx];
   const [phase, setPhase] = useState<'work' | 'break'>('work');
   const [secondsLeft, setSecondsLeft] = useState(mode.workMins * 60);
@@ -68,50 +78,72 @@ export default function FocusTimer() {
   };
 
   return (
-    <Card className="flex flex-col items-center gap-5 py-8">
-      <div className="flex gap-2">
-        {MODES.map((m, idx) => (
-          <button
-            key={m.type}
-            type="button"
-            onClick={() => setModeIdx(idx)}
-            disabled={running}
-            className={`rounded-full px-4 py-1.5 text-sm font-medium ${
-              idx === modeIdx
-                ? 'bg-indigo-600 text-white'
-                : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'
-            }`}
-          >
-            {m.label}
-          </button>
-        ))}
-      </div>
-
-      <div className="relative flex h-56 w-56 items-center justify-center rounded-full border-8 border-slate-100 dark:border-slate-800">
+    <div className="relative overflow-hidden rounded-[var(--radius-lg)]">
+      {running && (
         <div
-          className="absolute inset-0 rounded-full"
+          className="pointer-events-none absolute inset-0 -z-10 animate-focus-breathe"
           style={{
-            background: `conic-gradient(${phase === 'work' ? '#6366f1' : '#10b981'} ${progressPct}%, transparent ${progressPct}%)`,
-            mask: 'radial-gradient(farthest-side, transparent calc(100% - 8px), black calc(100% - 8px))',
-            WebkitMask: 'radial-gradient(farthest-side, transparent calc(100% - 8px), black calc(100% - 8px))',
+            background:
+              'radial-gradient(60% 60% at 50% 40%, rgba(0,45,127,0.5), transparent 70%)',
           }}
         />
-        <div className="text-center">
-          <p className="text-4xl font-bold tabular-nums">{formatTime(secondsLeft)}</p>
-          <p className="mt-1 text-xs uppercase tracking-wide text-slate-400">
-            {phase === 'work' ? 'Focus' : 'Break'}
+      )}
+      <Card variant={running ? 'glass' : 'solid'} className="flex flex-col items-center gap-5 py-10 transition-colors duration-300">
+        {currentSubject && (
+          <p className="text-sm text-text-secondary">
+            Focusing on <span className="font-semibold text-accent">{currentSubject}</span>
           </p>
-        </div>
-      </div>
+        )}
 
-      <div className="flex gap-3">
-        <button type="button" onClick={() => setRunning((r) => !r)} className={primaryButtonClass}>
-          {running ? 'Pause' : 'Start'}
-        </button>
-        <button type="button" onClick={reset} className={secondaryButtonClass}>
-          Reset
-        </button>
-      </div>
-    </Card>
+        <div className="flex gap-2">
+          {MODES.map((m, idx) => (
+            <button
+              key={m.type}
+              type="button"
+              onClick={() => setModeIdx(idx)}
+              disabled={running}
+              className={`rounded-[var(--radius-full)] px-4 py-1.5 text-sm font-medium transition-colors duration-200 disabled:cursor-not-allowed ${
+                idx === modeIdx
+                  ? 'bg-primary text-white shadow-sm shadow-primary/30'
+                  : 'bg-surface text-text-secondary hover:text-text-primary'
+              }`}
+            >
+              {m.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="relative flex h-72 w-72 items-center justify-center rounded-full border-8 border-border">
+          <div
+            className="absolute inset-0 rounded-full"
+            style={{
+              background: `conic-gradient(${phase === 'work' ? '#002D7F' : '#22C55E'} ${progressPct}%, transparent ${progressPct}%)`,
+              mask: 'radial-gradient(farthest-side, transparent calc(100% - 8px), black calc(100% - 8px))',
+              WebkitMask: 'radial-gradient(farthest-side, transparent calc(100% - 8px), black calc(100% - 8px))',
+            }}
+          />
+          <div className="text-center">
+            <p className="text-5xl font-bold tabular-nums text-text-primary">{formatTime(secondsLeft)}</p>
+            <p className="mt-1 text-xs uppercase tracking-wide text-text-secondary">
+              {phase === 'work' ? 'Focus' : 'Break'}
+            </p>
+          </div>
+        </div>
+
+        <div className="flex gap-3">
+          <Button
+            onClick={() => setRunning((r) => !r)}
+            icon={running ? <Pause className="size-4" /> : <Play className="size-4" />}
+          >
+            {running ? 'Pause' : 'Start'}
+          </Button>
+          <Button variant="secondary" onClick={reset} icon={<RotateCcw className="size-4" />}>
+            Reset
+          </Button>
+        </div>
+
+        <p className="max-w-xs text-center text-xs text-text-secondary">{motivation}</p>
+      </Card>
+    </div>
   );
 }

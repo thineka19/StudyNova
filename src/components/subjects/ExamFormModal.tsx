@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Modal from '../common/Modal';
-import { inputClass, labelClass, primaryButtonClass, secondaryButtonClass } from '../common/formStyles';
+import Input, { Label, Select } from '../common/Input';
+import Button from '../common/Button';
 import type { Difficulty, Exam } from '../../types';
 import { useApp } from '../../context/AppContext';
 import { todayISO } from '../../lib/dateUtils';
@@ -48,50 +49,57 @@ export default function ExamFormModal({
     <Modal open={open} onClose={onClose} title={exam ? 'Edit Exam' : 'Add Exam'}>
       <div className="space-y-4">
         <div>
-          <label className={labelClass} htmlFor="exam-subject">Subject</label>
-          <select id="exam-subject" className={inputClass} value={subjectId} onChange={(e) => setSubjectId(e.target.value)}>
+          <Label htmlFor="exam-subject">Subject</Label>
+          <Select id="exam-subject" value={subjectId} onChange={(e) => setSubjectId(e.target.value)}>
             {subjects.length === 0 && <option value="">Add a subject first</option>}
             {subjects.map((s) => (
               <option key={s.id} value={s.id}>
                 {s.name}
               </option>
             ))}
-          </select>
+          </Select>
         </div>
         <div>
-          <label className={labelClass} htmlFor="exam-date">Exam date</label>
-          <input id="exam-date" type="date" className={inputClass} value={date} onChange={(e) => setDate(e.target.value)} />
+          <Label htmlFor="exam-date">Exam date</Label>
+          <Input id="exam-date" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
         </div>
         <div>
-          <label className={labelClass} htmlFor="exam-difficulty">Difficulty</label>
-          <select id="exam-difficulty" className={inputClass} value={difficulty} onChange={(e) => setDifficulty(e.target.value as Difficulty)}>
+          <Label htmlFor="exam-difficulty">Difficulty</Label>
+          <Select id="exam-difficulty" value={difficulty} onChange={(e) => setDifficulty(e.target.value as Difficulty)}>
             <option value="low">Low</option>
             <option value="med">Medium</option>
             <option value="high">High</option>
-          </select>
+          </Select>
         </div>
         <div>
-          <label className={labelClass} htmlFor="exam-prep">Preparedness: {preparedness}%</label>
-          <input id="exam-prep" type="range" min={0} max={100} value={preparedness} onChange={(e) => setPreparedness(Number(e.target.value))} className="w-full" />
-        </div>
-        <div>
-          <label className={labelClass} htmlFor="exam-tests">Practice tests completed</label>
+          <Label htmlFor="exam-prep">Preparedness: {preparedness}%</Label>
           <input
+            id="exam-prep"
+            type="range"
+            min={0}
+            max={100}
+            value={preparedness}
+            onChange={(e) => setPreparedness(Number(e.target.value))}
+            className="w-full accent-primary"
+          />
+        </div>
+        <div>
+          <Label htmlFor="exam-tests">Practice tests completed</Label>
+          <Input
             id="exam-tests"
             type="number"
             min={0}
-            className={inputClass}
             value={practiceTestsDone}
             onChange={(e) => setPracticeTestsDone(Math.max(0, Number(e.target.value)))}
           />
         </div>
         <div className="flex justify-end gap-2 pt-2">
-          <button type="button" onClick={onClose} className={secondaryButtonClass}>
+          <Button variant="secondary" onClick={onClose}>
             Cancel
-          </button>
-          <button type="button" onClick={handleSubmit} disabled={!subjectId} className={primaryButtonClass}>
+          </Button>
+          <Button onClick={handleSubmit} disabled={!subjectId}>
             {exam ? 'Save Changes' : 'Add Exam'}
-          </button>
+          </Button>
         </div>
       </div>
     </Modal>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Modal from '../common/Modal';
-import { inputClass, labelClass, primaryButtonClass, secondaryButtonClass } from '../common/formStyles';
+import Input, { Label, Select } from '../common/Input';
+import Button from '../common/Button';
 import type { Assignment, AssignmentStatus } from '../../types';
 import { useApp } from '../../context/AppContext';
 import { todayISO } from '../../lib/dateUtils';
@@ -48,26 +49,26 @@ export default function AssignmentFormModal({
     <Modal open={open} onClose={onClose} title={assignment ? 'Edit Assignment' : 'Add Assignment'}>
       <div className="space-y-4">
         <div>
-          <label className={labelClass} htmlFor="asg-subject">Subject</label>
-          <select id="asg-subject" className={inputClass} value={subjectId} onChange={(e) => setSubjectId(e.target.value)}>
+          <Label htmlFor="asg-subject">Subject</Label>
+          <Select id="asg-subject" value={subjectId} onChange={(e) => setSubjectId(e.target.value)}>
             {subjects.length === 0 && <option value="">Add a subject first</option>}
             {subjects.map((s) => (
               <option key={s.id} value={s.id}>
                 {s.name}
               </option>
             ))}
-          </select>
+          </Select>
         </div>
         <div>
-          <label className={labelClass} htmlFor="asg-title">Title</label>
-          <input id="asg-title" className={inputClass} value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. Problem Set 3" />
+          <Label htmlFor="asg-title">Title</Label>
+          <Input id="asg-title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. Problem Set 3" />
         </div>
         <div>
-          <label className={labelClass} htmlFor="asg-deadline">Deadline</label>
-          <input id="asg-deadline" type="date" className={inputClass} value={deadline} onChange={(e) => setDeadline(e.target.value)} />
+          <Label htmlFor="asg-deadline">Deadline</Label>
+          <Input id="asg-deadline" type="date" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
         </div>
         <div>
-          <label className={labelClass} htmlFor="asg-weight">Weight / Importance (1-10): {weight}</label>
+          <Label htmlFor="asg-weight">Weight / Importance (1-10): {weight}</Label>
           <input
             id="asg-weight"
             type="range"
@@ -75,24 +76,24 @@ export default function AssignmentFormModal({
             max={10}
             value={weight}
             onChange={(e) => setWeight(Number(e.target.value))}
-            className="w-full"
+            className="w-full accent-primary"
           />
         </div>
         <div>
-          <label className={labelClass} htmlFor="asg-status">Status</label>
-          <select id="asg-status" className={inputClass} value={status} onChange={(e) => setStatus(e.target.value as AssignmentStatus)}>
+          <Label htmlFor="asg-status">Status</Label>
+          <Select id="asg-status" value={status} onChange={(e) => setStatus(e.target.value as AssignmentStatus)}>
             <option value="not-started">Not Started</option>
             <option value="in-progress">In Progress</option>
             <option value="submitted">Submitted</option>
-          </select>
+          </Select>
         </div>
         <div className="flex justify-end gap-2 pt-2">
-          <button type="button" onClick={onClose} className={secondaryButtonClass}>
+          <Button variant="secondary" onClick={onClose}>
             Cancel
-          </button>
-          <button type="button" onClick={handleSubmit} disabled={!subjectId} className={primaryButtonClass}>
+          </Button>
+          <Button onClick={handleSubmit} disabled={!subjectId}>
             {assignment ? 'Save Changes' : 'Add Assignment'}
-          </button>
+          </Button>
         </div>
       </div>
     </Modal>

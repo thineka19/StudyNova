@@ -1,4 +1,6 @@
+import { CalendarClock, GraduationCap } from 'lucide-react';
 import Card from '../common/Card';
+import EmptyState from '../common/EmptyState';
 import { useApp } from '../../context/AppContext';
 import { formatShortDate, daysUntil, todayISO } from '../../lib/dateUtils';
 
@@ -18,13 +20,13 @@ export default function UpcomingList() {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
       <Card>
-        <h3 className="mb-3 font-semibold">Upcoming Exams</h3>
-        {exams.length === 0 && <p className="text-sm text-slate-400">No exams scheduled.</p>}
+        <h3 className="mb-3 font-semibold text-text-primary">Upcoming Exams</h3>
+        {exams.length === 0 && <EmptyState icon={<GraduationCap className="size-5" />} title="No exams scheduled" />}
         <div className="space-y-2">
           {exams.map((e) => (
-            <div key={e.id} className="flex justify-between text-sm">
-              <span>{subjectName(e.subjectId)}</span>
-              <span className="text-slate-400">
+            <div key={e.id} className="flex justify-between rounded-lg border border-border p-2.5 text-sm">
+              <span className="text-text-primary">{subjectName(e.subjectId)}</span>
+              <span className="text-text-secondary">
                 {formatShortDate(e.date)} · {daysUntil(e.date)}d
               </span>
             </div>
@@ -32,13 +34,15 @@ export default function UpcomingList() {
         </div>
       </Card>
       <Card>
-        <h3 className="mb-3 font-semibold">Upcoming Deadlines</h3>
-        {deadlines.length === 0 && <p className="text-sm text-slate-400">No deadlines coming up.</p>}
+        <h3 className="mb-3 font-semibold text-text-primary">Upcoming Deadlines</h3>
+        {deadlines.length === 0 && (
+          <EmptyState icon={<CalendarClock className="size-5" />} title="No deadlines coming up" />
+        )}
         <div className="space-y-2">
           {deadlines.map((a) => (
-            <div key={a.id} className="flex justify-between text-sm">
-              <span className="truncate">{a.title}</span>
-              <span className="shrink-0 text-slate-400">
+            <div key={a.id} className="flex justify-between rounded-lg border border-border p-2.5 text-sm">
+              <span className="truncate text-text-primary">{a.title}</span>
+              <span className="shrink-0 text-text-secondary">
                 {formatShortDate(a.deadline)} · {daysUntil(a.deadline)}d
               </span>
             </div>

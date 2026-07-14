@@ -1,3 +1,4 @@
+import { AlertTriangle } from 'lucide-react';
 import Card from '../common/Card';
 import { useApp } from '../../context/AppContext';
 import { formatShortDate } from '../../lib/dateUtils';
@@ -17,11 +18,13 @@ export default function RiskWarnings() {
   if (examWarnings.length === 0 && assignmentWarnings.length === 0) return null;
 
   return (
-    <Card className="border-amber-300 bg-amber-50 dark:border-amber-800 dark:bg-amber-950/30">
-      <h3 className="mb-3 font-semibold text-amber-800 dark:text-amber-300">⚠️ Deadline Risk Warnings</h3>
+    <Card className="border-warning/30 bg-warning/5 animate-fade-in">
+      <h3 className="mb-3 flex items-center gap-2 font-semibold text-warning">
+        <AlertTriangle className="size-4" /> Deadline Risk Warnings
+      </h3>
       <div className="space-y-2 text-sm">
         {examWarnings.map(({ e, risk }) => (
-          <p key={e.id} className="text-amber-700 dark:text-amber-300">
+          <p key={e.id} className="text-warning">
             <strong>{subjectName(e.subjectId)} exam</strong> ({formatShortDate(e.date)}): behind pace —
             {risk!.estimatedCompletionDate
               ? ` estimated topic completion by ${formatShortDate(risk!.estimatedCompletionDate)}, after the exam.`
@@ -29,7 +32,7 @@ export default function RiskWarnings() {
           </p>
         ))}
         {assignmentWarnings.map(({ a, risk }) => (
-          <p key={a.id} className="text-amber-700 dark:text-amber-300">
+          <p key={a.id} className="text-warning">
             <strong>{a.title}</strong> ({formatShortDate(a.deadline)}): behind pace —
             {risk!.estimatedCompletionDate
               ? ` estimated topic completion by ${formatShortDate(risk!.estimatedCompletionDate)}, after the deadline.`

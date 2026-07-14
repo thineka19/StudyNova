@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Bell } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 function timeAgo(iso: string): string {
@@ -21,12 +22,12 @@ export default function NotificationBell() {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="relative rounded-full p-2 text-slate-500 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+        className="relative rounded-full p-2 text-text-secondary transition-colors duration-200 hover:bg-surface hover:text-text-primary"
         aria-label="Notifications"
       >
-        <span className="text-xl">🔔</span>
+        <Bell className="size-5" />
         {unreadCount > 0 && (
-          <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-bold text-white">
+          <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-danger px-1 text-[10px] font-bold text-white">
             {unreadCount}
           </span>
         )}
@@ -39,14 +40,14 @@ export default function NotificationBell() {
             className="fixed inset-0 z-10 cursor-default"
             onClick={() => setOpen(false)}
           />
-          <div className="absolute right-0 z-20 mt-2 w-80 max-w-[90vw] rounded-xl border border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-900">
-            <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3 dark:border-slate-800">
-              <span className="text-sm font-semibold">Notifications</span>
+          <div className="absolute right-0 z-20 mt-2 w-80 max-w-[90vw] rounded-[var(--radius-md)] border border-glass-border bg-card shadow-2xl animate-scale-in">
+            <div className="flex items-center justify-between border-b border-border px-4 py-3">
+              <span className="text-sm font-semibold text-text-primary">Notifications</span>
               {unreadCount > 0 && (
                 <button
                   type="button"
                   onClick={() => markAllNotificationsRead()}
-                  className="text-xs font-medium text-indigo-600 hover:underline dark:text-indigo-400"
+                  className="text-xs font-medium text-accent hover:underline"
                 >
                   Mark all read
                 </button>
@@ -54,22 +55,22 @@ export default function NotificationBell() {
             </div>
             <div className="max-h-96 overflow-y-auto">
               {notifications.length === 0 && (
-                <p className="px-4 py-6 text-center text-sm text-slate-400">No notifications yet</p>
+                <p className="px-4 py-6 text-center text-sm text-text-secondary">No notifications yet</p>
               )}
               {notifications.map((n) => (
                 <button
                   key={n.id}
                   type="button"
                   onClick={() => markNotificationRead(n.id)}
-                  className={`block w-full border-b border-slate-100 px-4 py-3 text-left text-sm last:border-0 dark:border-slate-800 ${
-                    n.read ? 'opacity-60' : 'bg-indigo-50/60 dark:bg-indigo-950/30'
+                  className={`block w-full border-b border-border px-4 py-3 text-left text-sm transition-colors last:border-0 hover:bg-surface ${
+                    n.read ? 'opacity-60' : 'bg-primary/5'
                   }`}
                 >
                   <div className="flex items-center justify-between gap-2">
-                    <span className="font-medium">{n.title}</span>
-                    <span className="shrink-0 text-[11px] text-slate-400">{timeAgo(n.createdAt)}</span>
+                    <span className="font-medium text-text-primary">{n.title}</span>
+                    <span className="shrink-0 text-[11px] text-text-secondary">{timeAgo(n.createdAt)}</span>
                   </div>
-                  <p className="mt-0.5 text-slate-500 dark:text-slate-400">{n.body}</p>
+                  <p className="mt-0.5 text-text-secondary">{n.body}</p>
                 </button>
               ))}
             </div>

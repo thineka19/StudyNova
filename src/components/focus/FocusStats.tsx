@@ -25,11 +25,11 @@ export default function FocusStats() {
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+    <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
       {stats.map((s) => (
-        <Card key={s.label} className="text-center">
-          <p className="text-xl font-bold text-indigo-600 dark:text-indigo-400">{s.value}</p>
-          <p className="mt-1 text-xs text-slate-500">{s.label}</p>
+        <Card key={s.label} variant="glass" className="text-center !p-3">
+          <p className="text-lg font-bold text-accent">{s.value}</p>
+          <p className="mt-0.5 text-[11px] text-text-secondary">{s.label}</p>
         </Card>
       ))}
     </div>

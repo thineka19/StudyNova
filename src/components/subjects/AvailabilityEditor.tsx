@@ -1,5 +1,7 @@
+import { Plus, Trash2 } from 'lucide-react';
 import Card from '../common/Card';
-import { inputClass, primaryButtonClass, dangerButtonClass } from '../common/formStyles';
+import Input from '../common/Input';
+import Button from '../common/Button';
 import { useApp } from '../../context/AppContext';
 import type { TimeBlock } from '../../types';
 
@@ -46,35 +48,44 @@ export default function AvailabilityEditor() {
         const blocks = dayBlocks(day);
         const totalHours = blocks.reduce((sum, b) => sum + blockHours(b), 0);
         return (
-          <Card key={day}>
+          <Card key={day} hover>
             <div className="mb-2 flex items-center justify-between">
-              <h3 className="font-medium">{name}</h3>
-              <span className="text-xs text-slate-400">{totalHours.toFixed(1)}h free</span>
+              <h3 className="font-medium text-text-primary">{name}</h3>
+              <span className="text-xs text-text-secondary">{totalHours.toFixed(1)}h free</span>
             </div>
             <div className="space-y-2">
               {blocks.map((b, idx) => (
                 <div key={idx} className="flex items-center gap-2">
-                  <input
+                  <Input
                     type="time"
-                    className={inputClass}
                     value={b.start}
                     onChange={(e) => editBlock(day, idx, { start: e.target.value })}
                   />
-                  <span className="text-xs text-slate-400">to</span>
-                  <input
+                  <span className="text-xs text-text-secondary">to</span>
+                  <Input
                     type="time"
-                    className={inputClass}
                     value={b.end}
                     onChange={(e) => editBlock(day, idx, { end: e.target.value })}
                   />
-                  <button type="button" onClick={() => removeBlock(day, idx)} className={dangerButtonClass}>
-                    ✕
-                  </button>
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => removeBlock(day, idx)}
+                    aria-label="Remove time block"
+                  >
+                    <Trash2 className="size-3.5" />
+                  </Button>
                 </div>
               ))}
-              <button type="button" onClick={() => addBlock(day)} className={`${primaryButtonClass} w-full text-xs`}>
-                + Add time block
-              </button>
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => addBlock(day)}
+                icon={<Plus className="size-3.5" />}
+                className="w-full"
+              >
+                Add time block
+              </Button>
             </div>
           </Card>
         );

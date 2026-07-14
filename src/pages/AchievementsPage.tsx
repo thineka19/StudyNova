@@ -1,5 +1,6 @@
+import { Award, Lock, Trophy } from 'lucide-react';
 import Card from '../components/common/Card';
-import ProgressBar from '../components/common/ProgressBar';
+import ProgressOrb from '../components/common/ProgressOrb';
 import { useApp } from '../context/AppContext';
 import { xpToNextLevel } from '../lib/xp';
 
@@ -9,42 +10,39 @@ export default function AchievementsPage() {
   const progress = xpToNextLevel(xp.totalXP);
 
   return (
-    <div className="space-y-4">
-      <Card>
-        <div className="flex items-center justify-between">
+    <div className="space-y-4 animate-fade-in">
+      <Card variant="glass" className="flex flex-col items-center gap-5 sm:flex-row sm:justify-between">
+        <div className="flex items-center gap-4">
+          <div className="flex size-12 shrink-0 items-center justify-center rounded-[var(--radius-md)] bg-primary/15 text-accent">
+            <Trophy className="size-6" />
+          </div>
           <div>
-            <p className="text-sm text-slate-500">Level</p>
-            <p className="text-3xl font-bold text-indigo-600 dark:text-indigo-400">{progress.level}</p>
-          </div>
-          <div className="text-right">
-            <p className="text-sm text-slate-500">Total XP</p>
-            <p className="text-xl font-semibold">{xp.totalXP}</p>
+            <p className="text-sm text-text-secondary">Level {progress.level}</p>
+            <p className="text-xl font-semibold text-text-primary">{xp.totalXP} Total XP</p>
           </div>
         </div>
-        <div className="mt-3">
-          <ProgressBar value={(progress.current / progress.needed) * 100} colorClass="bg-amber-500" />
-          <p className="mt-1 text-xs text-slate-400">
-            {progress.current} / {progress.needed} XP to level {progress.level + 1}
-          </p>
-        </div>
+        <ProgressOrb value={(progress.current / progress.needed) * 100} size={110} tone="warning" label={`Lvl ${progress.level + 1}`} sublabel={`${progress.current}/${progress.needed} XP`} />
       </Card>
 
       <Card>
-        <h3 className="mb-3 font-semibold">Badges</h3>
+        <h3 className="mb-3 flex items-center gap-2 font-semibold text-text-primary">
+          <Award className="size-4 text-accent" /> Badges
+        </h3>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {xp.badges.map((b) => (
             <div
               key={b.id}
-              className={`flex flex-col items-center gap-1 rounded-xl border p-4 text-center ${
+              className={`relative flex flex-col items-center gap-1 rounded-[var(--radius-lg)] border p-4 text-center transition-all duration-200 ${
                 b.unlockedAt
-                  ? 'border-amber-300 bg-amber-50 dark:border-amber-800 dark:bg-amber-950/30'
-                  : 'border-slate-200 bg-slate-50 opacity-50 dark:border-slate-800 dark:bg-slate-900'
+                  ? 'border-warning/30 bg-warning/10 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-warning/10'
+                  : 'border-border bg-surface opacity-50'
               }`}
             >
+              {!b.unlockedAt && <Lock className="absolute right-2 top-2 size-3.5 text-text-secondary" />}
               <span className="text-3xl">{b.icon}</span>
-              <p className="text-sm font-medium">{b.name}</p>
-              <p className="text-[11px] text-slate-500">{b.description}</p>
-              {!b.unlockedAt && <p className="text-[10px] text-slate-400">Locked</p>}
+              <p className="text-sm font-medium text-text-primary">{b.name}</p>
+              <p className="text-[11px] text-text-secondary">{b.description}</p>
+              {!b.unlockedAt && <p className="text-[10px] text-text-secondary">Locked</p>}
             </div>
           ))}
         </div>

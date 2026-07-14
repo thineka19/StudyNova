@@ -1,6 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Plus, Pencil, Trash2, ClipboardList } from 'lucide-react';
 import Card from '../common/Card';
-import { primaryButtonClass, dangerButtonClass, secondaryButtonClass } from '../common/formStyles';
+import Badge from '../common/Badge';
+import EmptyState from '../common/EmptyState';
+import Button from '../common/Button';
 import { useApp } from '../../context/AppContext';
 import type { Assignment } from '../../types';
 import AssignmentFormModal from './AssignmentFormModal';
@@ -12,7 +15,13 @@ const STATUS_LABEL: Record<string, string> = {
   submitted: 'Submitted',
 };
 
-export default function AssignmentList() {
+const STATUS_TONE: Record<string, 'neutral' | 'primary' | 'success'> = {
+  'not-started': 'neutral',
+  'in-progress': 'primary',
+  submitted: 'success',
+};
+
+export default function AssignmentList({ autoOpenAdd, onAutoOpenHandled }: { autoOpenAdd?: boolean; onAutoOpenHandled?: () => void }) {
   const { data, deleteAssignment } = useApp();
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState<Assignment | null>(null);
@@ -20,53 +29,60 @@ export default function AssignmentList() {
   const assignments = data?.assignments ?? [];
   const subjectName = (id: string) => data?.subjects.find((s) => s.id === id)?.name ?? 'Unknown';
 
+  useEffect(() => {
+    if (autoOpenAdd) {
+      setEditing(null);
+      setModalOpen(true);
+      onAutoOpenHandled?.();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoOpenAdd]);
+
   return (
     <div>
       <div className="mb-4 flex justify-end">
-        <button
-          type="button"
+        <Button
           onClick={() => {
             setEditing(null);
             setModalOpen(true);
           }}
-          className={primaryButtonClass}
+          icon={<Plus className="size-4" />}
         >
-          + Add Assignment
-        </button>
+          Add Assignment
+        </Button>
       </div>
 
       {assignments.length === 0 && (
-        <Card className="text-center text-sm text-slate-400">No assignments yet.</Card>
+        <EmptyState icon={<ClipboardList className="size-5" />} title="No assignments yet" />
       )}
 
       <div className="space-y-3">
         {assignments.map((a) => {
           const daysLeft = daysUntil(a.deadline);
           return (
-            <Card key={a.id} className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <Card key={a.id} hover className="flex flex-col gap-2 animate-fade-in sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="font-medium">{a.title}</p>
-                <p className="text-xs text-slate-500">
+                <p className="font-medium text-text-primary">{a.title}</p>
+                <p className="text-xs text-text-secondary">
                   {subjectName(a.subjectId)} · Due {formatShortDate(a.deadline)} ({daysLeft >= 0 ? `${daysLeft}d left` : 'overdue'}) · Weight {a.weight}/10
                 </p>
               </div>
               <div className="flex items-center gap-2">
-                <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">
-                  {STATUS_LABEL[a.status]}
-                </span>
-                <button
-                  type="button"
+                <Badge tone={STATUS_TONE[a.status]}>{STATUS_LABEL[a.status]}</Badge>
+                <Button
+                  variant="secondary"
+                  size="sm"
                   onClick={() => {
                     setEditing(a);
                     setModalOpen(true);
                   }}
-                  className={secondaryButtonClass}
+                  icon={<Pencil className="size-3.5" />}
                 >
                   Edit
-                </button>
-                <button type="button" onClick={() => deleteAssignment(a.id)} className={dangerButtonClass}>
+                </Button>
+                <Button variant="danger" size="sm" onClick={() => deleteAssignment(a.id)} icon={<Trash2 className="size-3.5" />}>
                   Delete
-                </button>
+                </Button>
               </div>
             </Card>
           );
