@@ -1,32 +1,63 @@
-# React + TypeScript + Vite
+# StudyNova
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+StudyNova is a modern study companion built to help students plan smarter, stay focused, and build momentum every day. It brings assignments, exams, focus sessions, and progress insights into one calm and motivating workspace.
 
-Currently, two official plugins are available:
+## ✨ What StudyNova offers
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Smart subject and task planning
+- A focused study timer experience
+- Weekly analytics and progress tracking
+- Achievement and streak motivation
+- A polished, distraction-light interface
 
-## React Compiler
+## 🧠 Why it exists
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Students often juggle deadlines, classes, and personal routines at the same time. StudyNova makes that load feel lighter by turning academic workload into a clear, manageable plan.
 
-## Expanding the Oxlint configuration
+## 🚀 Tech stack
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+- React + TypeScript
+- Vite
+- Tailwind CSS
+- React Router
+- Recharts
+- Lucide icons
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
+## 📦 Getting started
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+1. Clone the repository
+   ```bash
+   git clone https://github.com/thineka19/StudyNova.git
+   cd StudyNova
+   ```
+
+2. Install dependencies
+   ```bash
+   npm install
+   ```
+
+3. Start the development server
+   ```bash
+   npm run dev
+   ```
+
+4. Build for production
+   ```bash
+   npm run build
+   ```
+
+## 🌐 Project goals
+
+StudyNova aims to create a study experience that feels productive, simple, and encouraging — whether you are preparing for an exam, managing weekly deadlines, or building a steady routine.
+
+## 📸 Preview
+
+A polished dashboard experience with planning, focus mode, analytics, and achievements is built into the app.
+
+## 🤝 Contributing
+
+Contributions are welcome. If you would like to improve StudyNova, feel free to open an issue or submit a pull request.
+
+## 📄 License
+
+This project is open for educational and personal use.
