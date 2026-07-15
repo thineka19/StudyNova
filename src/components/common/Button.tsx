@@ -67,7 +67,7 @@ export default function Button({
       type="button"
       disabled={disabled || loading}
       onMouseDown={handleMouseDown}
-      className={`btn-glow-ring relative inline-flex items-center justify-center overflow-hidden rounded-[var(--radius-sm)] font-semibold transition-[background-color,box-shadow,transform,border-color] duration-[250ms] ease-[var(--ease-premium)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 disabled:cursor-not-allowed disabled:opacity-50 active:scale-[0.98] ${variantClass[variant]} ${sizeClass[size]} ${className}`}
+      className={`btn-glow-ring glow-accent-hover relative inline-flex items-center justify-center overflow-hidden rounded-[var(--radius-sm)] font-semibold transition-[background-color,box-shadow,transform,border-color] duration-[250ms] ease-[var(--ease-premium)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 disabled:cursor-not-allowed disabled:opacity-50 active:scale-[0.98] ${variantClass[variant]} ${sizeClass[size]} ${className}`}
       {...props}
     >
       {loading ? <Loader2 className="size-4 animate-spin" /> : icon}

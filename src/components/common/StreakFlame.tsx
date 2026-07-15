@@ -13,7 +13,7 @@ export default function StreakFlame({ days, size = 'md' }: { days: number; size?
     <div className="inline-flex items-center gap-2">
       <div
         className={`flex ${s.box} items-center justify-center rounded-[var(--radius-full)] ${
-          active ? 'bg-flame/15 text-flame shadow-[0_0_20px_var(--color-flame-glow)]' : 'bg-surface text-text-secondary'
+          active ? 'bg-flame/15 text-flame glow-flame' : 'bg-surface text-text-secondary'
         }`}
       >
         <Flame className={`${s.icon} ${active ? 'animate-flame-flicker' : ''}`} />
