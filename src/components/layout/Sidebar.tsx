@@ -53,9 +53,9 @@ function DockItem({
       onClick={onNavigate}
       title={label}
       className={({ isActive }) =>
-        `group relative flex items-center gap-3 overflow-hidden rounded-[var(--radius-md)] px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
+        `group relative flex items-center gap-3 overflow-hidden rounded-[var(--radius-md)] px-3 py-2.5 text-sm font-medium transition-[background-color,box-shadow,color] duration-[250ms] ease-[var(--ease-premium)] ${
           isActive
-            ? 'bg-primary text-white shadow-sm shadow-primary/30'
+            ? 'bg-primary text-white shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_4px_16px_-4px_var(--color-primary)]'
             : 'text-text-secondary hover:bg-white/5 hover:text-text-primary'
         }`
       }

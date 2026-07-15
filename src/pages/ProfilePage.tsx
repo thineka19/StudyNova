@@ -9,6 +9,7 @@ import Input, { Label } from '../components/common/Input';
 import PasswordInput from '../components/common/PasswordInput';
 import ProgressOrb from '../components/common/ProgressOrb';
 import StreakFlame from '../components/common/StreakFlame';
+import Reveal from '../components/common/Reveal';
 import WeeklyTrendChart from '../components/analytics/WeeklyTrendChart';
 import { useAuth } from '../context/AuthContext';
 import { useApp } from '../context/AppContext';
@@ -126,43 +127,49 @@ export default function ProfilePage() {
         </Button>
       </Card>
 
-      <div>
-        <h3 className="mb-3 text-sm font-semibold text-text-secondary">Learning Statistics</h3>
-        <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
-          <StatChip icon={<CheckCircle2 className="size-4" />} label="Topics Completed" value={completedTasks} />
-          <StatChip icon={<Clock className="size-4" />} label="Total Focus Hours" value={`${totalHours}h`} />
-          <StatChip icon={<Trophy className="size-4" />} label="Achievements" value={unlockedBadges} />
-          <StatChip icon={<Trophy className="size-4" />} label="Productivity Score" value={xp.totalXP} />
+      <Reveal>
+        <div>
+          <h3 className="mb-3 text-sm font-semibold text-text-secondary">Learning Statistics</h3>
+          <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
+            <StatChip icon={<CheckCircle2 className="size-4" />} label="Topics Completed" value={completedTasks} />
+            <StatChip icon={<Clock className="size-4" />} label="Total Focus Hours" value={`${totalHours}h`} />
+            <StatChip icon={<Trophy className="size-4" />} label="Achievements" value={unlockedBadges} />
+            <StatChip icon={<Trophy className="size-4" />} label="Productivity Score" value={xp.totalXP} />
+          </div>
         </div>
-      </div>
+      </Reveal>
 
-      <div>
-        <h3 className="mb-3 text-sm font-semibold text-text-secondary">Growth Over Time</h3>
-        <WeeklyTrendChart />
-      </div>
-
-      <Card>
-        <h3 className="mb-3 text-sm font-semibold text-text-secondary">Account Actions</h3>
-        <div className="flex flex-wrap gap-3">
-          <Button variant="secondary" icon={<Pencil className="size-4" />} onClick={() => setEditOpen(true)}>
-            Edit Profile
-          </Button>
-          <Button
-            variant="secondary"
-            icon={<Pencil className="size-4" />}
-            onClick={() => {
-              setPwOpen(true);
-              setPwSuccess(false);
-              setPwError(null);
-            }}
-          >
-            Change Password
-          </Button>
-          <Button variant="danger" icon={<LogOut className="size-4" />} onClick={handleLogout}>
-            Logout
-          </Button>
+      <Reveal>
+        <div>
+          <h3 className="mb-3 text-sm font-semibold text-text-secondary">Growth Over Time</h3>
+          <WeeklyTrendChart />
         </div>
-      </Card>
+      </Reveal>
+
+      <Reveal>
+        <Card>
+          <h3 className="mb-3 text-sm font-semibold text-text-secondary">Account Actions</h3>
+          <div className="flex flex-wrap gap-3">
+            <Button variant="secondary" icon={<Pencil className="size-4" />} onClick={() => setEditOpen(true)}>
+              Edit Profile
+            </Button>
+            <Button
+              variant="secondary"
+              icon={<Pencil className="size-4" />}
+              onClick={() => {
+                setPwOpen(true);
+                setPwSuccess(false);
+                setPwError(null);
+              }}
+            >
+              Change Password
+            </Button>
+            <Button variant="danger" icon={<LogOut className="size-4" />} onClick={handleLogout}>
+              Logout
+            </Button>
+          </div>
+        </Card>
+      </Reveal>
 
       <Modal open={editOpen} title="Edit Profile" onClose={() => setEditOpen(false)}>
         <div className="space-y-4">

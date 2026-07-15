@@ -42,7 +42,7 @@ export default function FloatingActionButton({
                 setOpen(false);
                 a.onClick();
               }}
-              className="flex items-center gap-2 rounded-[var(--radius-full)] border border-glass-border bg-glass px-4 py-2 text-sm font-medium text-text-primary shadow-lg backdrop-blur-xl transition-transform duration-200 hover:scale-105"
+              className="flex items-center gap-2 rounded-[var(--radius-full)] border border-glass-border bg-glass px-4 py-2 text-sm font-medium text-text-primary shadow-lg backdrop-blur-xl transition-[transform,box-shadow] duration-[250ms] ease-[var(--ease-premium)] hover:-translate-y-0.5 hover:scale-105 hover:shadow-xl"
             >
               {a.icon}
               {a.label}
@@ -54,9 +54,9 @@ export default function FloatingActionButton({
         type="button"
         aria-label="Create"
         onClick={() => (hasMenu ? setOpen((o) => !o) : onClick?.())}
-        className="flex size-14 items-center justify-center rounded-[var(--radius-full)] bg-primary text-white shadow-lg shadow-primary/40 transition-transform duration-200 hover:scale-105 active:scale-95"
+        className="flex size-14 items-center justify-center rounded-[var(--radius-full)] bg-primary text-white shadow-lg shadow-primary/40 transition-[transform,box-shadow] duration-[250ms] ease-[var(--ease-premium)] hover:scale-105 hover:shadow-xl hover:shadow-primary/50 active:scale-95"
       >
-        <Plus className={`size-6 transition-transform duration-200 ${open ? 'rotate-45' : ''}`} />
+        <Plus className={`size-6 transition-transform duration-[250ms] ease-[var(--ease-premium)] ${open ? 'rotate-45' : ''}`} />
       </button>
     </div>
   );

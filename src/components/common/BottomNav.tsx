@@ -10,8 +10,8 @@ export default function BottomNav() {
           to={to}
           end={end}
           className={({ isActive }) =>
-            `flex min-w-14 flex-col items-center gap-0.5 rounded-[var(--radius-sm)] px-2 py-1.5 text-[11px] font-medium transition-colors duration-200 ${
-              isActive ? 'text-accent' : 'text-text-secondary'
+            `flex min-w-14 flex-col items-center gap-0.5 rounded-[var(--radius-sm)] px-2 py-1.5 text-[11px] font-medium transition-[color,transform] duration-[250ms] ease-[var(--ease-premium)] ${
+              isActive ? 'scale-105 text-accent drop-shadow-[0_0_6px_color-mix(in_srgb,var(--color-accent)_55%,transparent)]' : 'text-text-secondary'
             }`
           }
         >

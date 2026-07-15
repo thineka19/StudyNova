@@ -21,7 +21,7 @@ export default function Input({
         </span>
       )}
       <input
-        className={`w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-text-primary placeholder:text-text-secondary/60 transition-colors duration-200 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30 ${icon ? 'pl-9' : ''} ${className}`}
+        className={`w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-text-primary placeholder:text-text-secondary/60 transition-colors duration-[250ms] ease-[var(--ease-premium)] focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30 ${icon ? 'pl-9' : ''} ${className}`}
         {...props}
       />
     </div>
@@ -31,7 +31,7 @@ export default function Input({
 export function Select({ className = '', children, ...props }: SelectHTMLAttributes<HTMLSelectElement>) {
   return (
     <select
-      className={`w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-text-primary transition-colors duration-200 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30 ${className}`}
+      className={`w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-text-primary transition-colors duration-[250ms] ease-[var(--ease-premium)] focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30 ${className}`}
       {...props}
     >
       {children}

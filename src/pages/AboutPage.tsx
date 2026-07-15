@@ -1,6 +1,7 @@
 import { ArrowRight, BookOpenCheck, Brain, CalendarDays, Sparkles, TimerReset, Trophy } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Card from '../components/common/Card';
+import Reveal from '../components/common/Reveal';
 
 const features = [
   {
@@ -64,46 +65,52 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="grid gap-4 md:grid-cols-3">
-          {stats.map((stat) => (
-            <Card key={stat.label} className="text-center">
-              <p className="text-2xl font-semibold text-text-primary">{stat.value}</p>
-              <p className="mt-1 text-sm text-text-secondary">{stat.label}</p>
-            </Card>
-          ))}
-        </section>
-
-        <section className="grid gap-4 lg:grid-cols-2">
-          {features.map((feature) => {
-            const Icon = feature.icon;
-            return (
-              <Card key={feature.title} hover className="flex gap-3">
-                <div className="flex size-11 shrink-0 items-center justify-center rounded-[var(--radius-sm)] bg-primary/10 text-accent">
-                  <Icon className="size-5" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-text-primary">{feature.title}</h3>
-                  <p className="mt-1 text-sm leading-6 text-text-secondary">{feature.description}</p>
-                </div>
+        <Reveal>
+          <section className="grid gap-4 md:grid-cols-3">
+            {stats.map((stat) => (
+              <Card key={stat.label} className="text-center">
+                <p className="text-2xl font-semibold text-text-primary">{stat.value}</p>
+                <p className="mt-1 text-sm text-text-secondary">{stat.label}</p>
               </Card>
-            );
-          })}
-        </section>
+            ))}
+          </section>
+        </Reveal>
 
-        <section className="rounded-[var(--radius-lg)] border border-border bg-card/70 p-6 shadow-sm">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <div>
-              <h2 className="text-2xl font-semibold text-text-primary">Built for students who want clarity.</h2>
-              <p className="mt-2 max-w-2xl text-sm leading-7 text-text-secondary">
-                StudyNova combines planning, focus, and reflection into one peaceful experience so you can spend less time organizing and more time learning.
-              </p>
+        <Reveal>
+          <section className="grid gap-4 lg:grid-cols-2">
+            {features.map((feature) => {
+              const Icon = feature.icon;
+              return (
+                <Card key={feature.title} hover className="flex gap-3">
+                  <div className="flex size-11 shrink-0 items-center justify-center rounded-[var(--radius-sm)] bg-primary/10 text-accent">
+                    <Icon className="size-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-text-primary">{feature.title}</h3>
+                    <p className="mt-1 text-sm leading-6 text-text-secondary">{feature.description}</p>
+                  </div>
+                </Card>
+              );
+            })}
+          </section>
+        </Reveal>
+
+        <Reveal>
+          <section className="rounded-[var(--radius-lg)] border border-border bg-card/70 p-6 shadow-sm">
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+              <div>
+                <h2 className="text-2xl font-semibold text-text-primary">Built for students who want clarity.</h2>
+                <p className="mt-2 max-w-2xl text-sm leading-7 text-text-secondary">
+                  StudyNova combines planning, focus, and reflection into one peaceful experience so you can spend less time organizing and more time learning.
+                </p>
+              </div>
+              <div className="flex items-center gap-2 rounded-[var(--radius-sm)] border border-border bg-surface px-3 py-2 text-sm text-text-secondary">
+                <CalendarDays className="size-4 text-accent" />
+                Designed for modern study routines
+              </div>
             </div>
-            <div className="flex items-center gap-2 rounded-[var(--radius-sm)] border border-border bg-surface px-3 py-2 text-sm text-text-secondary">
-              <CalendarDays className="size-4 text-accent" />
-              Designed for modern study routines
-            </div>
-          </div>
-        </section>
+          </section>
+        </Reveal>
       </div>
     </div>
   );

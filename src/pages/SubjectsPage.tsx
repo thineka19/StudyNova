@@ -7,6 +7,7 @@ import ExamList from '../components/subjects/ExamList';
 import AvailabilityEditor from '../components/subjects/AvailabilityEditor';
 import StudyTimeline from '../components/subjects/StudyTimeline';
 import FloatingActionButton from '../components/common/FloatingActionButton';
+import Reveal from '../components/common/Reveal';
 
 const TABS = [
   { key: 'subjects', label: 'Subjects' },
@@ -43,7 +44,7 @@ export default function SubjectsPage() {
 
   return (
     <div className="animate-fade-in">
-      <StudyTimeline />
+      <Reveal><StudyTimeline /></Reveal>
 
       <div className="mb-5 flex gap-1 overflow-x-auto rounded-[var(--radius-md)] bg-surface p-1">
         {TABS.map((t) => (
@@ -51,7 +52,7 @@ export default function SubjectsPage() {
             key={t.key}
             type="button"
             onClick={() => setTab(t.key)}
-            className={`whitespace-nowrap rounded-[var(--radius-sm)] px-4 py-2 text-sm font-medium transition-colors duration-200 ${
+            className={`whitespace-nowrap rounded-[var(--radius-sm)] px-4 py-2 text-sm font-medium transition-colors duration-[250ms] ease-[var(--ease-premium)] ${
               tab === t.key
                 ? 'bg-card text-accent shadow-sm'
                 : 'text-text-secondary hover:text-text-primary'

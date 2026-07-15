@@ -6,9 +6,20 @@ import Button from '../components/common/Button';
 import Modal from '../components/common/Modal';
 import Input, { Label, Select } from '../components/common/Input';
 import PasswordInput from '../components/common/PasswordInput';
+import Reveal from '../components/common/Reveal';
 import { useTheme, type AccentKey } from '../context/ThemeContext';
 import { usePrefs } from '../context/PrefsContext';
 import { useAuth } from '../context/AuthContext';
+
+const tabButtonClass = (active: boolean) =>
+  `flex items-center gap-1.5 whitespace-nowrap rounded-[var(--radius-sm)] px-4 py-2 text-sm font-medium transition-colors duration-[250ms] ease-[var(--ease-premium)] ${
+    active ? 'bg-card text-accent shadow-sm' : 'text-text-secondary hover:text-text-primary'
+  }`;
+
+const segmentButtonClass = (active: boolean) =>
+  `flex items-center gap-1.5 rounded-[var(--radius-sm)] px-3 py-1.5 text-xs font-semibold transition-colors duration-[250ms] ease-[var(--ease-premium)] ${
+    active ? 'bg-primary text-white' : 'text-text-secondary'
+  }`;
 
 const ACCENTS: { key: AccentKey; label: string; className: string }[] = [
   { key: 'primary', label: 'Primary Blue', className: 'bg-primary' },
@@ -50,12 +61,12 @@ function ToggleRow({
         aria-checked={checked}
         aria-label={label}
         onClick={() => onChange(!checked)}
-        className={`relative h-6 w-11 shrink-0 rounded-full transition-colors duration-200 ${
+        className={`relative h-6 w-11 shrink-0 rounded-full transition-colors duration-[250ms] ease-[var(--ease-premium)] ${
           checked ? 'bg-primary' : 'bg-surface'
         }`}
       >
         <span
-          className={`absolute top-0.5 size-5 rounded-full bg-white shadow transition-transform duration-200 ${
+          className={`absolute top-0.5 size-5 rounded-full bg-white shadow transition-transform duration-[250ms] ease-[var(--ease-premium)] ${
             checked ? 'translate-x-5' : 'translate-x-0.5'
           }`}
         />
@@ -103,9 +114,7 @@ export default function SettingsPage() {
             key={t.key}
             type="button"
             onClick={() => setTab(t.key)}
-            className={`flex items-center gap-1.5 whitespace-nowrap rounded-[var(--radius-sm)] px-4 py-2 text-sm font-medium transition-colors duration-200 ${
-              tab === t.key ? 'bg-card text-accent shadow-sm' : 'text-text-secondary hover:text-text-primary'
-            }`}
+            className={tabButtonClass(tab === t.key)}
           >
             <t.icon className="size-4" />
             {t.label}
@@ -114,130 +123,126 @@ export default function SettingsPage() {
       </div>
 
       {tab === 'appearance' && (
-        <Card className="space-y-4 animate-fade-in">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-text-primary">Dark Mode</p>
-              <p className="text-xs text-text-secondary">Dark is the default, premium theme</p>
+        <Reveal>
+          <Card className="space-y-4 animate-fade-in">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-text-primary">Dark Mode</p>
+                <p className="text-xs text-text-secondary">Dark is the default, premium theme</p>
+              </div>
+              <div className="flex rounded-[var(--radius-sm)] border border-border bg-surface p-1">
+                <button type="button" onClick={() => setTheme('dark')} className={segmentButtonClass(theme === 'dark')}>
+                  <Moon className="size-3.5" /> Dark
+                </button>
+                <button type="button" onClick={() => setTheme('light')} className={segmentButtonClass(theme === 'light')}>
+                  <Sun className="size-3.5" /> Light
+                </button>
+              </div>
             </div>
-            <div className="flex rounded-[var(--radius-sm)] border border-border bg-surface p-1">
-              <button
-                type="button"
-                onClick={() => setTheme('dark')}
-                className={`flex items-center gap-1.5 rounded-[var(--radius-sm)] px-3 py-1.5 text-xs font-semibold transition-colors ${
-                  theme === 'dark' ? 'bg-primary text-white' : 'text-text-secondary'
-                }`}
-              >
-                <Moon className="size-3.5" /> Dark
-              </button>
-              <button
-                type="button"
-                onClick={() => setTheme('light')}
-                className={`flex items-center gap-1.5 rounded-[var(--radius-sm)] px-3 py-1.5 text-xs font-semibold transition-colors ${
-                  theme === 'light' ? 'bg-primary text-white' : 'text-text-secondary'
-                }`}
-              >
-                <Sun className="size-3.5" /> Light
-              </button>
-            </div>
-          </div>
 
-          <div className="border-t border-border pt-3">
-            <p className="mb-2 text-sm font-medium text-text-primary">Accent Color</p>
-            <div className="flex flex-wrap gap-2">
-              {ACCENTS.map((a) => (
-                <button
-                  key={a.key}
-                  type="button"
-                  onClick={() => setAccent(a.key)}
-                  aria-label={a.label}
-                  title={a.label}
-                  className={`size-8 rounded-full ${a.className} transition-transform hover:scale-110 ${
-                    accent === a.key ? 'ring-2 ring-primary ring-offset-2 ring-offset-card' : ''
-                  }`}
-                />
-              ))}
+            <div className="border-t border-border pt-3">
+              <p className="mb-2 text-sm font-medium text-text-primary">Accent Color</p>
+              <div className="flex flex-wrap gap-2">
+                {ACCENTS.map((a) => (
+                  <button
+                    key={a.key}
+                    type="button"
+                    onClick={() => setAccent(a.key)}
+                    aria-label={a.label}
+                    title={a.label}
+                    className={`size-8 rounded-full ${a.className} transition-transform duration-[250ms] ease-[var(--ease-premium)] hover:scale-110 ${
+                      accent === a.key ? 'ring-2 ring-accent ring-offset-2 ring-offset-card' : ''
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-        </Card>
+          </Card>
+        </Reveal>
       )}
 
       {tab === 'preferences' && (
-        <Card className="animate-fade-in">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div>
-              <Label htmlFor="preferred-hours">Preferred Study Hours</Label>
-              <Select
-                id="preferred-hours"
-                value={planner.preferredStudyHours}
-                onChange={(e) => setPlannerPref('preferredStudyHours', e.target.value)}
-              >
-                <option value="morning">Morning</option>
-                <option value="afternoon">Afternoon</option>
-                <option value="evening">Evening</option>
-                <option value="night">Night</option>
-              </Select>
+        <Reveal>
+          <Card className="animate-fade-in">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div>
+                <Label htmlFor="preferred-hours">Preferred Study Hours</Label>
+                <Select
+                  id="preferred-hours"
+                  value={planner.preferredStudyHours}
+                  onChange={(e) => setPlannerPref('preferredStudyHours', e.target.value)}
+                >
+                  <option value="morning">Morning</option>
+                  <option value="afternoon">Afternoon</option>
+                  <option value="evening">Evening</option>
+                  <option value="night">Night</option>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="session-length">Study Session Length (mins)</Label>
+                <Input
+                  id="session-length"
+                  type="number"
+                  min={10}
+                  max={180}
+                  value={planner.sessionLengthMins}
+                  onChange={(e) => setPlannerPref('sessionLengthMins', Number(e.target.value))}
+                />
+              </div>
+              <div>
+                <Label htmlFor="break-length">Break Duration (mins)</Label>
+                <Input
+                  id="break-length"
+                  type="number"
+                  min={0}
+                  max={60}
+                  value={planner.breakDurationMins}
+                  onChange={(e) => setPlannerPref('breakDurationMins', Number(e.target.value))}
+                />
+              </div>
             </div>
-            <div>
-              <Label htmlFor="session-length">Study Session Length (mins)</Label>
-              <Input
-                id="session-length"
-                type="number"
-                min={10}
-                max={180}
-                value={planner.sessionLengthMins}
-                onChange={(e) => setPlannerPref('sessionLengthMins', Number(e.target.value))}
-              />
-            </div>
-            <div>
-              <Label htmlFor="break-length">Break Duration (mins)</Label>
-              <Input
-                id="break-length"
-                type="number"
-                min={0}
-                max={60}
-                value={planner.breakDurationMins}
-                onChange={(e) => setPlannerPref('breakDurationMins', Number(e.target.value))}
-              />
-            </div>
-          </div>
-        </Card>
+          </Card>
+        </Reveal>
       )}
 
       {tab === 'notifications' && (
-        <Card className="animate-fade-in">
-          <ToggleRow
-            label="Deadline Reminders"
-            description="Get notified before assignment deadlines"
-            checked={notifications.deadlineReminders}
-            onChange={(v) => setNotificationPref('deadlineReminders', v)}
-          />
-          <ToggleRow
-            label="Exam Alerts"
-            description="Get notified as exams approach"
-            checked={notifications.examAlerts}
-            onChange={(v) => setNotificationPref('examAlerts', v)}
-          />
-          <ToggleRow
-            label="Daily Study Reminders"
-            description="A daily nudge to keep your streak going"
-            checked={notifications.dailyStudyReminders}
-            onChange={(v) => setNotificationPref('dailyStudyReminders', v)}
-          />
-        </Card>
+        <Reveal>
+          <Card className="animate-fade-in">
+            <ToggleRow
+              label="Deadline Reminders"
+              description="Get notified before assignment deadlines"
+              checked={notifications.deadlineReminders}
+              onChange={(v) => setNotificationPref('deadlineReminders', v)}
+            />
+            <ToggleRow
+              label="Exam Alerts"
+              description="Get notified as exams approach"
+              checked={notifications.examAlerts}
+              onChange={(v) => setNotificationPref('examAlerts', v)}
+            />
+            <ToggleRow
+              label="Daily Study Reminders"
+              description="A daily nudge to keep your streak going"
+              checked={notifications.dailyStudyReminders}
+              onChange={(v) => setNotificationPref('dailyStudyReminders', v)}
+            />
+          </Card>
+        </Reveal>
       )}
 
       {tab === 'account' && (
-        <Card className="animate-fade-in">
-          <div className="flex flex-wrap gap-3">
-            <Button variant="secondary" onClick={() => { setPwOpen(true); setPwSuccess(false); setPwError(null); }}>
-              Change Password
-            </Button>
-            <Button variant="danger" icon={<LogOut className="size-4" />} onClick={handleLogout}>
-              Logout
-            </Button>
-          </div>
-        </Card>
+        <Reveal>
+          <Card className="animate-fade-in">
+            <div className="flex flex-wrap gap-3">
+              <Button variant="secondary" onClick={() => { setPwOpen(true); setPwSuccess(false); setPwError(null); }}>
+                Change Password
+              </Button>
+              <Button variant="danger" icon={<LogOut className="size-4" />} onClick={handleLogout}>
+                Logout
+              </Button>
+            </div>
+          </Card>
+        </Reveal>
       )}
 
       <Modal open={pwOpen} title="Change Password" onClose={() => setPwOpen(false)}>

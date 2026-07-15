@@ -1,4 +1,5 @@
 import MonthCalendar from '../components/calendar/MonthCalendar';
+import Reveal from '../components/common/Reveal';
 
 export default function CalendarPage() {
   return (
@@ -8,7 +9,7 @@ export default function CalendarPage() {
         <span className="flex items-center gap-1"><span className="h-2.5 w-2.5 rounded-full bg-warning" /> Deadline</span>
         <span className="flex items-center gap-1"><span className="h-2.5 w-2.5 rounded-full bg-primary" /> Study Session</span>
       </div>
-      <MonthCalendar />
+      <Reveal><MonthCalendar /></Reveal>
     </div>
   );
 }

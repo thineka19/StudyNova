@@ -12,6 +12,7 @@ import ProgressOrb from '../components/common/ProgressOrb';
 import StreakFlame from '../components/common/StreakFlame';
 import EnergyLevelIndicator from '../components/common/EnergyLevelIndicator';
 import FloatingActionButton from '../components/common/FloatingActionButton';
+import Reveal from '../components/common/Reveal';
 import { useApp } from '../context/AppContext';
 import { useAuth } from '../context/AuthContext';
 import { todayISO } from '../lib/dateUtils';
@@ -86,15 +87,17 @@ export default function DashboardPage() {
         </div>
       </Card>
 
-      <StatsRow />
-      <RiskWarnings />
+      <Reveal><StatsRow /></Reveal>
+      <Reveal><RiskWarnings /></Reveal>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <TodayTasks />
-        <PriorityList />
-      </div>
+      <Reveal>
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+          <TodayTasks />
+          <PriorityList />
+        </div>
+      </Reveal>
 
-      <UpcomingList />
+      <Reveal><UpcomingList /></Reveal>
 
       <FloatingActionButton
         actions={[

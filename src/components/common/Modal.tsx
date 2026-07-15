@@ -28,7 +28,7 @@ export default function Modal({
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="rounded-md p-1 text-text-secondary transition-colors hover:bg-surface hover:text-text-primary"
+            className="rounded-md p-1 text-text-secondary transition-colors duration-[250ms] ease-[var(--ease-premium)] hover:bg-surface hover:text-text-primary"
           >
             <X className="size-4" />
           </button>
