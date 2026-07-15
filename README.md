@@ -1,29 +1,31 @@
 # StudyNova
 
-StudyNova is a modern study companion built to help students plan smarter, stay focused, and build momentum every day. It brings assignments, exams, focus sessions, and progress insights into one calm and motivating workspace.
+StudyNova is a modern study companion built for students who want to stay organized, focused, and consistent. The app brings subjects, assignments, exams, focus sessions, and progress insights into one calm and motivating workspace.
 
-## ✨ What StudyNova offers
+## ✨ Features
 
-- Smart subject and task planning
-- A focused study timer experience
-- Weekly analytics and progress tracking
-- Achievement and streak motivation
-- A polished, distraction-light interface
+- Manage subjects, assignments, and exams in one place
+- Track upcoming deadlines and study priorities
+- Use a focused study timer for deep work sessions
+- View weekly analytics and progress trends
+- Unlock achievements and stay motivated with streaks
+- Enjoy a clean, distraction-light interface designed for study routines
 
-## 🧠 Why it exists
+## 🧠 Why StudyNova
 
-Students often juggle deadlines, classes, and personal routines at the same time. StudyNova makes that load feel lighter by turning academic workload into a clear, manageable plan.
+Students often balance classes, deadlines, and personal routines at the same time. StudyNova makes that workload easier to manage by turning academic planning into a clear and actionable experience.
 
-## 🚀 Tech stack
+## 🛠️ Tech Stack
 
-- React + TypeScript
+- React 19
+- TypeScript
 - Vite
-- Tailwind CSS
 - React Router
 - Recharts
+- Tailwind CSS
 - Lucide icons
 
-## 📦 Getting started
+## 🚀 Getting Started
 
 1. Clone the repository
    ```bash
@@ -46,13 +48,13 @@ Students often juggle deadlines, classes, and personal routines at the same time
    npm run build
    ```
 
-## 🌐 Project goals
+## 📁 Project Structure
 
-StudyNova aims to create a study experience that feels productive, simple, and encouraging — whether you are preparing for an exam, managing weekly deadlines, or building a steady routine.
-
-## 📸 Preview
-
-A polished dashboard experience with planning, focus mode, analytics, and achievements is built into the app.
+- src/pages — main application pages such as dashboard, subjects, analytics, and focus
+- src/components — reusable UI components and app sections
+- src/context — app state and authentication context
+- src/lib — planning, scheduling, analytics, and study logic
+- src/data — seed data and storage helpers
 
 ## 🤝 Contributing
 
@@ -60,4 +62,4 @@ Contributions are welcome. If you would like to improve StudyNova, feel free to 
 
 ## 📄 License
 
-This project is open for educational and personal use.
+This project is intended for educational and personal use.
